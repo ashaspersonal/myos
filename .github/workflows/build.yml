@@ -21,11 +21,11 @@ jobs:
         chmod +x build_all.sh
         chmod +x build_iso.sh
         ./build_all.sh
-        mkdir artifacts
+        mkdir -p artifacts
         mv myos.iso artifacts/
 
     - name: Upload ISO
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: myos-iso
         path: artifacts/myos.iso
