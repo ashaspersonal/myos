@@ -1,0 +1,31 @@
+name: Build MyOS ISO
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install packages
+      run: sudo apt update && sudo apt install -y xorriso grub-pc-bin mtools build-essential gcc i386-elf-gcc i386-elf-binutils
+
+    - name: Build MyOS ISO
+      run: |
+        chmod +x build_all.sh
+        chmod +x build_iso.sh
+        ./build_all.sh
+        mkdir artifacts
+        mv myos.iso artifacts/
+
+    - name: Upload ISO
+      uses: actions/upload-artifact@v3
+      with:
+        name: myos-iso
+        path: artifacts/myos.iso
